@@ -5,25 +5,50 @@ import org.pircbotx.cap.CapHandler;
 import org.pircbotx.cap.EnableCapHandler;
 import org.pircbotx.exception.CAPException;
 
+import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 public class PapaTBotMain
 {
-    public static void main(String[] args) throws Exception
-    {
-        //Papa T Bot: oauth:fzxu38s35fwcxa29shnucycpu66sp1
-        //Configure what we want our bot to do
-        Configuration.Builder configBuilder = new Configuration.Builder();
-        configBuilder.setName("PapaTBot");
-        configBuilder.setServer("irc.twitch.tv", 6667);
-        configBuilder.setServerPassword("oauth:fzxu38s35fwcxa29shnucycpu66sp1");
-        configBuilder.addAutoJoinChannel("#papatooshi");
-        //configBuilder.addCapHandler(new EnableCapHandler("twitch.tv/membership"));
-        configBuilder.addListener(new MessageListener());
+    public static void main(String[] args) throws Exception {
+        final String FILENAME = "PapaTBot.txt";
+        BufferedReader reader;
+        Configuration.Builder builder = new Configuration.Builder();
+        Configuration configuration;
 
-        //Create our bot with the configuration
-        PircBotX bot = new PircBotX(configBuilder.buildConfiguration());
-        //Connect to the server
-        bot.startBot();
-        //bot.sendRaw().rawLine("CAP REQ :twitch.tv/membership");
-        //bot.sendRaw().rawLine("CAP REQ :twitch.tv/commands");
+        try {
+            reader = new BufferedReader(new FileReader(FILENAME));
+            String username, oauth, str;
+
+            username = reader.readLine();
+            oauth = reader.readLine();
+
+            System.out.println("Logging in as " + username + " with password " + oauth);
+            builder.setName(username);
+            builder.setServer("irc.twitch.tv", 6667);
+            builder.setServerPassword(oauth);
+
+            //Skip the blank lines
+            reader.readLine();
+            reader.readLine();
+            str = reader.readLine();
+            while (str != null) {
+                builder.addAutoJoinChannel(str);
+                System.out.println("Added autojoin of: " + str);
+                str = reader.readLine();
+            }
+
+            builder.addListener(new MessageListener());
+            configuration = builder.buildConfiguration();
+
+            //Create our bot with the configuration
+            PircBotX bot = new PircBotX(configuration);
+            //Connect to the server
+            bot.startBot();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "File \"" + FILENAME + "\" is not present in the root directory. Please ensure it is present");
+        }
     }
 }
