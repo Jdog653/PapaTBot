@@ -13,7 +13,7 @@ import java.io.FileReader;
 public class PapaTBotMain
 {
     public static void main(String[] args) throws Exception {
-        final String FILENAME = "PapaTBot.txt";
+        final String FILENAME = "Files\\PapaTBot.txt";
         BufferedReader reader;
         Configuration.Builder builder = new Configuration.Builder();
         Configuration configuration;

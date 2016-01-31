@@ -51,7 +51,7 @@ public class MessageListener extends ListenerAdapter
             "papatooshi",
             "cloakedyoshi",
             "wonton67"));
-    private final String PAPA_T_NICKNAMES_FILENAME = "Papatooshi Nicknames.json", PAPA_T_QUOTES_FILENAME = "PapaTooshi Quote List.txt", GENERIC_RAID_MESSAGE = "Papatooshi Raid!", PAPA_T_HIGHLIGHT_FILENAME = "Papa Tooshi Highlights.txt";
+    private final String PAPA_T_NICKNAMES_FILENAME = "Files\\Papatooshi Nicknames.json", PAPA_T_QUOTES_FILENAME = "Files\\PapaTooshi Quote List.txt", GENERIC_RAID_MESSAGE = "Papatooshi Raid!", PAPA_T_HIGHLIGHT_FILENAME = "Files\\PapaTooshi Highlights.txt";
     private String agarioServer;
     private HashMap<String, Long> joinTimes, firstChatTimes;
     private HashMap<String, Integer> numLinks;
