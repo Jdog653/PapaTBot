@@ -1,5 +1,3 @@
-package pIRCBotx.PapaTBot;
-
 import com.google.common.collect.ImmutableList;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;

@@ -1,5 +1,3 @@
-package pIRCBotx.PapaTBot;
-
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.json.simple.JSONObject;
