@@ -29,7 +29,7 @@ public class PapaTBotMain
 
             System.out.println("Logging in as " + username + " with password " + oauth);
             builder.setName(username);
-            builder.setServer("irc.twitch.tv", 6667);
+            builder.addServer("irc.twitch.tv", 6667);
             builder.setServerPassword(oauth);
 
             //Skip the blank lines
