@@ -26,7 +26,6 @@ import java.util.*;
 
 public class MessageListener extends ListenerAdapter
 {
-    private boolean capSent;
     private final int RAID_ITERATIONS = 10, MAX_TIMERS = 5, SECONDS_TO_MILLISECONDS = 1000, MINUTES_TO_SECONDS = 60, HOURS_TO_MINUTES = 60;
     private final long JOIN_WAIT_TIME_MINUTE = 60, JOIN_WAIT_TIME_MILLI = JOIN_WAIT_TIME_MINUTE * 60000;
     private final String[] GREETING_WORDS = {"Hi", "Hey", "Hello", "Howdy", "Hey-o", "Heyo", "Yo", "whats"};
@@ -117,7 +116,6 @@ public class MessageListener extends ListenerAdapter
         JSONInit();
         fileInit(PAPA_T_HIGHLIGHT_FILENAME, highlights);
         fileInit(PAPA_T_QUOTES_FILENAME, quotes);
-        capSent = false;
     }
 
     private void writeListToFile(final String fileName, final ArrayList<String> list)
@@ -1093,13 +1091,6 @@ public class MessageListener extends ListenerAdapter
     @Override
     public void onJoin(JoinEvent event)
     {
-        if(!capSent)
-        {
-            capSent = true;
-            event.getBot().sendCAP().request("twitch.tv/membership");
-            event.getBot().sendCAP().request("twitch.tv/commands");
-        }
-
         String s = event.getUser().getNick().toLowerCase();
 
         numLinks.put(s, 0);
