@@ -1213,6 +1213,9 @@ public class MessageListener extends ListenerAdapter
             case "timer":
                 response = timerCommand(event, params);
                 break;
+            case "discord":
+                response = "PapaTooshi has a discord server! Join it at: https://discord.gg/0sxoxVQUkzhR8STA";
+                break;
             default:
                 response = s + " is not recognized as a command. Perhaps you misspelled it?";
                 break;
@@ -1352,6 +1355,7 @@ public class MessageListener extends ListenerAdapter
     {
         timeoutUser(user, channel, "1");
     }
+
     /**
      * Greets the user if the message starts with: "Hi", "Hello", "Hey", 'Howdy", "Hey-o", "Yo", or "What's up" AND they have not chatted for an hour
      * @param user The User who sent a message
