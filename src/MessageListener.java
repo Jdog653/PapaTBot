@@ -1155,7 +1155,7 @@ public class MessageListener extends ListenerAdapter
         switch(params.size())
         {
             case 0:
-                return "[!help] Too few parameters given. Usage: !help <command>";
+                return "To read about PapaTBot, go to: https://github.com/Jdog653/PapaTBot/wiki";
             case 1:
                 break;
             default:
@@ -1170,7 +1170,7 @@ public class MessageListener extends ListenerAdapter
 
         if(isCommand(s))
         {
-            return "The Wiki page for " + s + " can be found at: https://github.com/Jdog653/PapaTBot/wiki/" + s;
+            return "The Wiki page for " + s + " can be found at: https://github.com/Jdog653/PapaTBot/wiki/" + s.substring(1);
         }
 
         return "[!help] I'm sorry, @" + event.getUser().getNick() + ", but " + s + " is not a valid command.";
