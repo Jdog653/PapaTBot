@@ -28,7 +28,8 @@ public class MessageListener extends ListenerAdapter
 {
     private final int RAID_ITERATIONS = 10, MAX_TIMERS = 5, SECONDS_TO_MILLISECONDS = 1000, MINUTES_TO_SECONDS = 60, HOURS_TO_MINUTES = 60;
     private final long JOIN_WAIT_TIME_MINUTE = 60, JOIN_WAIT_TIME_MILLI = JOIN_WAIT_TIME_MINUTE * 60000;
-    private final String[] GREETING_WORDS = {"Hi", "Hey", "Hello", "Howdy", "Hey-o", "Heyo", "Yo", "whats"};
+    private final String[] GREETING_WORDS = {"Hi", "Hey", "Hello", "Howdy", "Hey-o", "Heyo", "Yo", "whats"},
+                           COMMANDS = {"!songrequest", "!time", "!highlight", "!twitter", "!nickname", "!server", "!quote", "!youtube", "!raid", "!ip", "!nnid", "!permit", "!agario", "!headphonealert", "!timer", "!discord", "!help"};
     private final ArrayList<String> MODS = new ArrayList(Arrays.asList(
             "doctor_s",
             "fastlane0730",
@@ -116,6 +117,19 @@ public class MessageListener extends ListenerAdapter
         JSONInit();
         fileInit(PAPA_T_HIGHLIGHT_FILENAME, highlights);
         fileInit(PAPA_T_QUOTES_FILENAME, quotes);
+    }
+
+    private boolean isCommand(String s)
+    {
+        for(int i = 0; i < COMMANDS.length; i++)
+        {
+            if(COMMANDS[i].compareTo(s) == 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void writeListToFile(final String fileName, final ArrayList<String> list)
@@ -1136,6 +1150,32 @@ public class MessageListener extends ListenerAdapter
         return "I'm sorry, @" + sender.getNick() + ", but only mods can permit links";
     }
 
+    private String helpCommand(MessageEvent event, ArrayList<String> params)
+    {
+        switch(params.size())
+        {
+            case 0:
+                return "[!help] Too few parameters given. Usage: !help <command>";
+            case 1:
+                break;
+            default:
+                return "[!help] Too many parameters given. Usage: !help  <command>";
+        }
+        String s = params.get(0);
+
+        if(!s.startsWith("!"))
+        {
+            s = "!" + s;
+        }
+
+        if(isCommand(s))
+        {
+            return "The Wiki page for " + s + " can be found at: https://github.com/Jdog653/PapaTBot/wiki/" + s;
+        }
+
+        return "[!help] I'm sorry, @" + event.getUser().getNick() + ", but " + s + " is not a valid command.";
+    }
+
     @Override
     public void onKick(KickEvent event)
     {
@@ -1215,6 +1255,9 @@ public class MessageListener extends ListenerAdapter
                 break;
             case "discord":
                 response = "PapaTooshi has a discord server! Join it at: https://discord.gg/0sxoxVQUkzhR8STA";
+                break;
+            case "help":
+                response = helpCommand(event, params);
                 break;
             default:
                 response = s + " is not recognized as a command. Perhaps you misspelled it?";
