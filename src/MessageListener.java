@@ -1310,7 +1310,7 @@ public class MessageListener extends ListenerAdapter
         if(isMod(user, channel) || isChannelOwner(user, channel))
         {
             return "You guys should TOTALLY follow this streamer. They're 200% PapaTooshi approved. Follow them at" +
-                    "twitch.tv/" + params.get(0);
+                    " twitch.tv/" + params.get(0);
         }
 
         return "I'm sorry, @" + user.getNick() + ", but only mods can use the !shoutout command";
