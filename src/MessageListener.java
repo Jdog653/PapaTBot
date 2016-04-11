@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
+import org.pircbotx.exception.IrcException;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.*;
 
@@ -1177,6 +1178,25 @@ public class MessageListener extends ListenerAdapter
     }
 
     @Override
+    public void onDisconnect(DisconnectEvent event)
+    {
+        System.out.println("We've been disconnected. Restarting...");
+        try {
+            event.getBot().startBot();
+        }
+        catch(IrcException e)
+        {
+            System.out.println("IRCException");
+            System.exit(0);
+        }
+        catch(IOException e)
+        {
+            System.out.println("IOException");
+            System.exit(0);
+        }
+    }
+
+    @Override
     public void onKick(KickEvent event)
     {
         System.out.println(event.getUser().getNick()  + " has been kicked from channel: " + event.getChannel().getName());
@@ -1259,11 +1279,41 @@ public class MessageListener extends ListenerAdapter
             case "help":
                 response = helpCommand(event, params);
                 break;
+            case "tooshi":
+                response = "Tooshi (CloakedYoshi) is Papa T's son. Find his twitch channel here: twitch.tv/cloakedyoshi";
+                break;
+            case "shoutout":
+                response = shoutoutCommand(event, params);
+                break;
             default:
                 response = s + " is not recognized as a command. Perhaps you misspelled it?";
                 break;
         }
         return response;
+    }
+
+    private String shoutoutCommand(MessageEvent event, ArrayList<String> params)
+    {
+        User user = event.getUser();
+        Channel channel = event.getChannel();
+
+        switch(params.size())
+        {
+            case 0:
+                return "[!shoutout] Incorrect number of parameters provided. Usage: !shoutout <username>";
+            case 1:
+                break;
+            default:
+                return "[!shoutout] Too many parameters provided. Usage: !shoutout <username>";
+        }
+
+        if(isMod(user, channel) || isChannelOwner(user, channel))
+        {
+            return "You guys should TOTALLY follow this streamer. They're 200% PapaTooshi approved. Follow them at" +
+                    "twitch.tv/" + params.get(0);
+        }
+
+        return "I'm sorry, @" + user.getNick() + ", but only mods can use the !shoutout command";
     }
 
     private boolean baseReview(MessageEvent event, ArrayList<String> params)
