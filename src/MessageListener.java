@@ -1285,6 +1285,12 @@ public class MessageListener extends ListenerAdapter
             case "shoutout":
                 response = shoutoutCommand(event, params);
                 break;
+            case "basereview":
+                response = "Papa T doesn't do base reviews. Stop asking";
+                break;
+			case "donate":
+				response = "You can donate to PapaTooshi by using this link: https://www.twitchalerts.com/donate/papatooshi";
+				break;
             default:
                 response = s + " is not recognized as a command. Perhaps you misspelled it?";
                 break;
